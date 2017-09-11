@@ -1,0 +1,85 @@
+FirstName,Password,Date
+hi,hdvbshvasab,7/7/2017   3:02:23 PM
+hello,jsabcjnzx,7/7/2017 4:02:23 PM
+super,trgrtf,7/7/2017 1:02:23 PM
+danger,kfjnre,7/7/2017 3:02:23 PM
+
+FirstName,Password
+sreeknh,tupili
+Amagarwal,[lAL.!;b{f
+Aagarwal,nQ!nIbe+2W
+Vagarwal,f}*eNtqB8K
+
+
+
+
+#Get-Content "C:\Users\Administrator\Desktop\Sandeep_test\Employees.csv" | ForEach-Object { $_.Trim() } 
+
+$file = "C:\Users\Administrator\Desktop\Sandeep_test\Employees.csv"
+#(Get-Content $file | Select-Object -Skip 1) | Set-Content $file "FirstName,Password"
+
+#Get-Content $file | Where{$_ -notmatch "SpMAn"} | Out-File $file
+
+<#$path = "C:\Users\Administrator\Desktop\Sandeep_test\Employees.csv"
+$scrubbed = Import-CSV $path | Where-Object{$_.hello -and $_.jsabcjnzx}
+$scrubbed | Export-Csv -NoTypeInformation $path
+
+
+Import-Csv $file  |
+    skip  where  {$_.FirstName -contains "Super" }  | 
+    Export-Csv $file -NoTypeInformation
+
+get-process | ConvertTo-CSV -NoTypeInformation | select -Skip 1
+
+#>
+
+$test = Get-Content $file
+$output = $test[2..($test.count - 2)]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				#Start-Sleep -s 25
+	
+   for ($i=$csv.length+1; $i-ge 0; $i--) {
+	#Write-Output $csv[$i];
+	$userName1 =$csv[$i].FirstName
+	$pwd =$csv[$i].Password
+}
+#Import-Csv $csv | ForEach-Object {
+#				$userName1 =$_.FirstName
+#				$pwd =$_.Password
+#				
+				
+				$SmtpServer = 'smtp.gmail.com'
+				$SmtpUser = 'sampleproject888@gmail.com'
+				$smtpPassword = 'SampleSample'
+				$MailtTo = 'skambham@innominds.com'
+				$MailFrom = 'sampleproject888@gmail.com'
+				$MailSubject = "INNOMINDS USER CREATION" 
+				$MailMessage =  "Hello "+$userName1+",`n`nPlease find Your Innominds Email and Myspace Portal account details.`n`nPlease login to the Webmail at URL http://outlook.innominds.com to access the email with below credentials.
+`n  username :"+$userName1+ " `n  password : "+$pwd+ "`n`nLogin credentials for System and Myspace (URL: https://myspace.innominds.com ) are:
+`n  username :"+$userName1+ " `n  password : "+$pwd+"`n`nNote : Myspace portal activation may take up to 24 Hrs. Later if you need further assistance on Myspace, please write to HR(mparise@innominds.com).
+`nNote : Please enroll/register at https://ssp.innominds.com and reset the password.
+`n`Need Help on how to Enroll or Use SSP ?? Visit https://ssp.innominds.com/ssp.pdf `n`n`nRegards,`nIT Team,`nInnominds."
+				$Credentials = New-Object System.Management.Automation.PSCredential -ArgumentList $SmtpUser, $($smtpPassword | ConvertTo-SecureString -AsPlainText -Force) 
+				Send-MailMessage -To "$MailtTo" -from "$MailFrom" -Subject $MailSubject -Body $MailMessage -SmtpServer $SmtpServer -Credential $Credentials -UseSsl -Port 587 
+ 
+ 
+#Import-Csv $file | where {$_.FirstName -ne $userName1} | Export-Csv 'C:\Users\Administrator\Desktop\Sandeep_test\Employees.csv' -notypeinfo 
+#(Get-Content $csv) | where {$_FirstName -eq $userName1} | Set-Content $csv
+
+#$path = "C:\Users\abc\Desktop\New.csv"
+$scrubbed = Import-CSV $file | Where-Object{$_.FirstName -ne $userName1}
+$scrubbed | Export-Csv -NoTypeInformation $file

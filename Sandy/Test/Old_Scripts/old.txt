@@ -1,0 +1,72 @@
+$csv = 'C:\Users\Administrator\Desktop\Test\ADEmployee.csv'
+$ou  = 'OU=Users,OU=VizagIncubation,DC=corp,DC=innominds,DC=com'
+Add-Type -AssemblyName System.Web
+
+
+Import-Csv $csv | ForEach-Object {
+
+    $user =  $_.firstname
+	
+	$maildId=$_.mailid
+	$middleName=$_.middlename
+	
+    $userName1 = $_.firstname.Substring(0,1) + $_.lastname
+    #$CN  = $_.firstname +" "+ $_.lastname
+    $upn = "@corp"+"."+"innominds"+"."+"com"
+   # $cname = Get-ADUser -filter { CN -eq $CN } | measure
+    
+	if($middleName.Count -gt 1){
+		Write-output $middleName.Count
+		$cName = $_.firstname +" "+$middleName+" "+$_.lastname    
+	}else{
+	Write-output "else called"
+		$cName = $_.firstname +" " +$_.lastname    
+	}
+  $CN=$cName
+    for($j=0; $j -le 5 ; $j++){
+		
+        $cname = Get-ADUser -filter { CN -eq $CN } | measure
+        if($cname.Count -gt 0){
+            $CN = $cName + ($j+1)
+			#Write-output $CN
+        }
+       
+    }
+
+    for($i=1; $i -le $user.length; $i++){
+        $userName = $_.firstname.Substring(0,$i) + $_.lastname
+        $sann = Get-ADUser -filter { SamAccountName -eq $userName } | measure
+        if($sann.Count -gt 0){
+            
+            $userName1 = $_.firstname.Substring(0,$i+1) + $_.lastname
+        }
+    }
+    
+	$pwd = [System.Web.Security.Membership]::GeneratePassword(10,2)
+    $pw   = ConvertTo-SecureString $pwd -AsPlainText -Force
+    New-ADUser -Name $CN `
+    -SamAccountName $userName1 `
+    -GivenName $_.firstname `
+    -Surname $_.lastname `
+    -Path $ou `
+    -AccountPassword $pw `
+    -Enabled $true `
+    -ChangePasswordAtLogon $true `
+    -PassThru `
+    -UserPrincipalName $userName1$upn`
+
+$SmtpServer = 'smtp.gmail.com'
+$SmtpUser = 'sampleproject888@gmail.com'
+$smtpPassword = 'samplesample'
+$MailtTo = $maildId
+$MailFrom = 'sampleproject888@gmail.com'
+$MailSubject = "Test using $SmtpServer" 
+$MailMessage =  " your account have been created `n `n username : "+$userName1+ " `n password : "+$pwd 
+$Credentials = New-Object System.Management.Automation.PSCredential -ArgumentList $SmtpUser, $($smtpPassword | ConvertTo-SecureString -AsPlainText -Force) 
+Send-MailMessage -To "$MailtTo" -from "$MailFrom" -Subject $MailSubject -Body $MailMessage -SmtpServer $SmtpServer -Credential $Credentials -UseSsl -Port 587 
+	
+	 return "Password Created  :"+$pwd;
+
+
+
+}

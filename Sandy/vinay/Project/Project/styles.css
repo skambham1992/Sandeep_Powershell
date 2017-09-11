@@ -1,0 +1,48 @@
+body {background-image: url(images/bg.jpg);
+background-repeat: repeat; }
+.logo { width: 250px; height: auto;}
+.header-nav {min-height: 75px; border: 0px; border-bottom: 1px solid #d4d4d4;}
+.logout-text { margin-top: 15px; float: right; }
+.page-starts { background-color: rgba(255, 255, 255, 0.7);
+    height: 100vh; }
+.ldapusers-main { padding-top: 0px; }
+.login-title { color: #E84925; font-weight: 500;
+    border-bottom: 2px solid #E84925;
+    width: auto;
+    padding: 10px 0px; }
+.user-btn {     color: #fff;
+    background-color: #e84925;
+    border-color: #e84925;
+    border-radius: 0px;
+    font-weight: normal; margin-bottom: 10px;
+font-size: 15px; padding: 8px 15px; width: 180px;
+    border: 0px; }
+footer {border-top: 1px solid #d4d4d4; position: absolute; width: auto; bottom: 0px;
+padding: 10px 0px; }
+.designedby p { text-align: right;}
+.designedby p a { color: #e84925; }
+.user-btn a { text-decoration: none; color: #fff; }
+.logout-text li a { padding: 10px 15px; }
+.submitbtn button { float: right; background-color: #e84925;  border: 0px;
+border-radius: 0px; padding: 8px 15px;}
+.submitbtn button:hover { background-color: #e84925; }
+.disablebtn button { margin-top: 25px;}
+
+@media screen and (min-width: 960px) {
+	footer { width: 960px; }
+}
+
+@media screen and (min-width: 1200px) {
+	footer { width: 1160px; }
+}
+@media screen and (max-width: 767px) {
+	footer { width: 100%; }
+}
+@font-face {
+    font-family: opensansbold;
+    src: url(OpenSans-Bold.ttf);
+}
+@font-face {
+    font-family: opensansregular;
+    src: url(OpenSans-Regular.ttf);
+}
